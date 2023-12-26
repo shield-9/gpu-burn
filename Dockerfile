@@ -1,6 +1,6 @@
-ARG CUDA_VERSION=11.8.0
+ARG CUDA_VERSION=12.3.1
 ARG CUDA_COMPUTE=9.0
-ARG IMAGE_DISTRO=ubi8
+ARG IMAGE_DISTRO=ubuntu22.04
 
 FROM nvidia/cuda:${CUDA_VERSION}-devel-${IMAGE_DISTRO} AS builder
 
@@ -17,4 +17,4 @@ COPY --from=builder /build/compare.ptx /app/
 
 WORKDIR /app
 
-CMD ["./gpu_burn", "60"]
+CMD ["./gpu_burn", "7200"]
