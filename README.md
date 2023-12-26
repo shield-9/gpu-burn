@@ -2,6 +2,8 @@
 Multi-GPU CUDA stress test
 http://wili.cc/blog/gpu-burn.html
 
+**See https://developer.nvidia.com/cuda-gpus for CUDA Compute Capability for your GPUs.**
+
 # Easy docker build and run
 
 ```
