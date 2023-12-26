@@ -6,10 +6,10 @@ on:
       - custom
 
 jobs:
-  docker:
+  build-and-push:
     strategy:
       matrix:
-        cuda_compute: ["7.5", "8.0", "8.6"] # 7.5 for T4, 8.0 for A100, 8.6 for A2, 8.9 for L4/L40S, 9.0 for H100
+        cuda_compute: ["7.5", "8.0", "8.6", "8.9", "9.0"] # 7.5 for T4, 8.0 for A100, 8.6 for A2, 8.9 for L4/L40S, 9.0 for H100
         cuda_version: ["12.3.1"] # 12.3 for driver >=525.60.13
 
     permissions:
