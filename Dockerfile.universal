@@ -1,0 +1,19 @@
+ARG CUDA_VERSION=12.3.1
+ARG IMAGE_DISTRO=ubuntu22.04
+
+FROM nvcr.io/nvidia/cuda:${CUDA_VERSION}-devel-${IMAGE_DISTRO} AS builder
+ARG CUDA_COMPUTES="7.5 8.0 8.6 8.9 9.0" # 7.5 for T4, 8.0 for A100, 8.6 for A2, 8.9 for L4/L40S, 9.0 for H100
+
+WORKDIR /build
+
+COPY . /build/
+
+RUN make universal COMPUTES="${CUDA_COMPUTES}"
+
+FROM nvcr.io/nvidia/cuda:${CUDA_VERSION}-runtime-${IMAGE_DISTRO}
+
+COPY --from=builder /build/bin/ /app/
+
+WORKDIR /app
+
+CMD ["./cc90/gpu_burn", "-d", "-tc", "7200"]

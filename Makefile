@@ -27,6 +27,7 @@ override LDFLAGS  += -lcublas
 override LDFLAGS  += -lcudart
 
 COMPUTE      ?= 50
+COMPUTES     ?= ${COMPUTE}
 CUDA_VERSION ?= 11.8.0
 IMAGE_DISTRO ?= ubi8
 
@@ -36,10 +37,20 @@ override NVCCFLAGS += -arch=compute_$(subst .,,${COMPUTE})
 
 IMAGE_NAME ?= gpu-burn
 
+SHELL=/bin/bash
+.ONESHELL:
 .PHONY: clean
 
 gpu_burn: gpu_burn-drv.o compare.ptx
 	g++ -o $@ $< -O3 ${LDFLAGS}
+
+universal:
+	@for compute in $(COMPUTES); do
+		compute=$${compute//./}
+		$(MAKE) COMPUTE=$${compute}
+		mkdir -p bin/cc$${compute}
+		mv gpu_burn compare.ptx bin/cc$${compute}
+	done
 
 %.o: %.cpp
 	g++ ${CFLAGS} -c $<

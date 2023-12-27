@@ -9,7 +9,6 @@ jobs:
   build-and-push:
     strategy:
       matrix:
-        cuda_compute: ["7.5", "8.0", "8.6", "8.9", "9.0"] # 7.5 for T4, 8.0 for A100, 8.6 for A2, 8.9 for L4/L40S, 9.0 for H100
         cuda_version: ["12.3.1"] # 12.3 for driver >=525.60.13
 
     permissions:
@@ -38,8 +37,7 @@ jobs:
         with:
           images: ghcr.io/shield-9/gpu-burn
           tags: |
-            cc${{ matrix.cuda_compute }}-cuda${{ matrix.cuda_version }}
-            cc${{ matrix.cuda_compute }}
+            cuda${{ matrix.cuda_version }}
 
       - name: Build and push
         uses: docker/build-push-action@v5
@@ -47,8 +45,8 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
+          file: Dockerfile.universal
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            CUDA_COMPUTE=${{ matrix.cuda_compute }}
             CUDA_VERSION=${{ matrix.cuda_version }}
 
