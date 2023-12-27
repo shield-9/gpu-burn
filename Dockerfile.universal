@@ -11,9 +11,10 @@ COPY . /build/
 RUN make universal COMPUTES="${CUDA_COMPUTES}"
 
 FROM nvcr.io/nvidia/cuda:${CUDA_VERSION}-runtime-${IMAGE_DISTRO}
+ENV CUDA_COMPUTE=cc75
 
 COPY --from=builder /build/bin/ /app/
 
-WORKDIR /app
+WORKDIR /app/$CUDA_COMPUTE
 
-CMD ["./cc90/gpu_burn", "-d", "-tc", "7200"]
+CMD ["./gpu_burn", "-d", "-tc", "7200"]
