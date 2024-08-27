@@ -9,7 +9,7 @@ jobs:
   build-and-push:
     strategy:
       matrix:
-        cuda_version: ["12.2.2", "12.3.1", "12.4.1"] # 12.2.2 for >=535.104.05, 12.3.1 for >=545.23.08, 12.4.1 for >=550.54.15
+        cuda_version: ["12.2.2", "12.3.1", "12.4.1", "12.6.0"] # 12.2.2 for >=535.104.05, 12.3.1 for >=545.23.08, 12.4.1 for >=550.54.15, 12.6.0 for >=560.28.03
         # https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#id5
 
     permissions:
